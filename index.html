@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bombahaj Fodrászat – Németh Mónika Kaposváron. Időpontfoglalás telefonon vagy Facebookon.">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="Bombahaj Fodrászat Logó.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Bombahaj Fodrászat</title>
+</head>
+<body>
+
+  
+<header>
+    <img src="Fodrász.png" alt="Bombahaj Fodrászat logó">
+<section class="status-box">
+    <h2>Foglalás állapota</h2>
+    <div id="status" class="status red">🔴 !Jelenleg zárva vagyunk!</div>
+    <!-- Ha nem fogadtok új vendégeket, cseréld "green" -> "red"-re és a szöveget: 🔴 !Jelenleg nem fogadunk új vendégeket!  or / 🔴 !Jelenleg zárva vagyunk!-->
+    <!--Ha fogadunk vendéget akkor, cseréld "red" -> "green"-re és a szöveget: 🟢 Most lehet foglalni!-->
+</section>
+</header>
+
+
+<section class="contact" data-aos="zoom-in">
+    <h2>Üdvözöllek!</h2>
+    <p>Szeretettel várok minden szépülni vágyó férfi,nőt és gyermeket a Bombahaj Fodrászat weboldalán! Minőségi hajvágás, festés és stílus tanácsadás barátságos környezetben.</p>
+</section>
+
+
+
+<section class="hours" class="availability" data-aos="fade-up">
+  <h3>Nyitvatartás</h3>
+  <ul>
+    <li><p>A szalon előzetes időpontfoglalással működik.</p></li>
+    <li><p>Nyitva csak akkor, ha az adott napra van foglalt vendég.</p></li>
+    <li><p>Kérlek, minden esetben egyeztess időpontot telefonon, Facebookon vagy itt a weboldalon!</p></li>
+  </ul>
+</section>
+
+
+
+<section class="contact" class="availability" data-aos="fade-up">
+  <h3>Kapcsolat</h3>
+    <p>📍 Cím: 7400 Kaposvár, Gyár utca 28.</p>
+    <p>📞 Telefonszám: <strong>06 20 / 431-5206</strong></p>
+    <p>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=100068438092342" target="_blank">Bombahaj Fodrászat</a></p>
+    <p><em>Bejelentkezés Telefonon, Facebookon vagy itt a Weboldalon lehetséges!</em></p>
+</section>
+
+
+
+
+<section class="gallery" data-aos="zoom-in">
+  <h2>frizura galéria</h2>
+    <div class="gallery-grid">
+      <img src="2.jpg">
+      <img src="1.jpg">
+      <img src="3.jpg">
+      <img src="4.jpg">
+      <img src="5.jpg">
+      <img src="6.jpg">
+      <img src="7.jpg">
+      <img src="8.jpg">
+      <img src="9.jpg">
+    </div>
+</section>
+
+
+<section class="gallery" data-aos="zoom-in">
+  <h2>Üzlet galéria</h2>
+    <div class="gallery-grid">
+      <img src="10.jpg">
+      <img src="11.jpg">
+      <img src="12.jpg">
+      <img src="13.jpg">
+      <img src="14.jpg">
+    </div>
+</section>
+
+
+
+
+
+
+<section id="booking-form-section" style="display: none;" class="pop">
+    <h2>Időpont foglalás</h2>
+    <p>Töltsd ki az alábbi űrlapot, és hamarosan felvesszük veled a kapcsolatot!</p>
+  <form action="https://formsubmit.co/szabolcssandor055@gamil.com" method="POST">
+    <input type="hidden" name="_captcha" value="false">
+    
+    <label>Név:<br>
+    <input type="text" name="name" required>
+    </label><br><br>
+
+
+    <label>Telefonszám:<br>
+    <input type="tel" name="phone" required>
+    </label><br><br>
+
+
+    <label>Üzenet:<br>
+    <textarea name="message" rows="4" placeholder="Pl. vágás + festés, hétköznap délután..."></textarea>
+    </label><br><br>
+    
+
+    <button type="submit">Küldés</button>
+  </form>
+</section>
+
+
+
+
+
+
+
+<footer>
+  Copyright &copy; 2025 Bombahaj Fodrászat – Minden jog fenntartva!
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+
+<script>
+  AOS.init();
+</script>
+
+
+<script>
+  const statusElement = document.getElementById("status");
+  const bookingFormSection = document.getElementById("booking-form-section");
+
+  if (statusElement.classList.contains("green")) {
+    bookingFormSection.style.display = "block";
+  } else {
+    bookingFormSection.style.display = "none";
+  }
+</script>
+
+
+</body>
+</html>
