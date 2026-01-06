@@ -85,25 +85,31 @@
 
 
 <section id="booking-form-section" style="display: none;" class="pop">
-    <h2>Időpont foglalás</h2>
-    <p>Töltsd ki az alábbi űrlapot, és hamarosan felvesszük veled a kapcsolatot!</p>
-  <form action="https://formsubmit.co/szabolcssandor055@gamil.com" method="POST">
+  <h2>Időpont foglalás</h2>
+  <p>Töltsd ki az alábbi űrlapot, és hamarosan felvesszük veled a kapcsolatot!</p>
+
+  <form action="https://formsubmit.co/szabolcssandor055@gmail.com" method="POST">
+    
+    <!-- Captcha kikapcsolása -->
     <input type="hidden" name="_captcha" value="false">
-    
-    <label>Név:<br>
-    <input type="text" name="name" required>
-    </label><br><br>
 
+    <!-- Köszönő oldal (opcionális, de ajánlott) -->
+    <input type="hidden" name="_next" value="https://szabi250.github.io/Bombahaj-Fodraszat/">
 
-    <label>Telefonszám:<br>
-    <input type="tel" name="phone" required>
-    </label><br><br>
+    <label>
+      Név:
+      <input type="text" name="name" required>
+    </label>
 
+    <label>
+      Email:
+      <input type="email" name="email" required>
+    </label>
 
-    <label>Üzenet:<br>
-    <textarea name="message" rows="4" placeholder="Pl. vágás + festés, hétköznap délután..."></textarea>
-    </label><br><br>
-    
+    <label>
+      Üzenet:
+      <textarea name="message" required></textarea>
+    </label>
 
     <button type="submit">Küldés</button>
   </form>
@@ -142,3 +148,4 @@
 </body>
 
 </html>
+
