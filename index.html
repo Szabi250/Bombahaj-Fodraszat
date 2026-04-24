@@ -3,38 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bombahaj Fodrászat – Időpontfoglalás">
-
-  <link rel="stylesheet" href="style.css">
   <title>Bombahaj Fodrászat</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header class="hero">
-  <img src="Fodrász.png" class="logo" alt="logó">
-
   <h1>Bombahaj Fodrászat</h1>
-  <p>Stílus. Minőség. Magabiztosság.</p>
-
-  <div id="status" class="status green">🟢 Most lehet foglalni!</div>
+  <div id="status" class="status green">🟢 Foglalható</div>
 </header>
-
-<section class="contact">
-  <h2>Üdvözöllek!</h2>
-  <p>Minőségi hajvágás és festés.</p>
-</section>
-
-<section class="hours">
-  <h3>Nyitvatartás</h3>
-  <p>Előzetes időpontfoglalás szükséges.</p>
-</section>
-
-<section class="contact">
-  <h3>Kapcsolat</h3>
-  <p>📍 Kaposvár</p>
-  <p>📞 06 20 / 431-5206</p>
-</section>
 
 <section class="gallery">
   <h2>Galéria</h2>
@@ -47,8 +25,8 @@
 </section>
 
 <!-- FOGLALÁS -->
-<section id="booking" class="pop">
-  <h2>Időpont foglalás</h2>
+<section class="pop">
+  <h2>Időpontfoglalás</h2>
 
   <label>Szolgáltatás:</label>
   <select id="service">
@@ -74,60 +52,63 @@
 </section>
 
 <!-- ADMIN -->
-<section id="adminPanel" class="pop">
+<section class="pop">
   <h2>Admin panel</h2>
 
-  <label><input type="checkbox" value="1"> Hétfő</label><br>
-  <label><input type="checkbox" value="2"> Kedd</label><br>
-  <label><input type="checkbox" value="3"> Szerda</label><br>
-  <label><input type="checkbox" value="4"> Csütörtök</label><br>
-  <label><input type="checkbox" value="5"> Péntek</label><br>
-  <label><input type="checkbox" value="6"> Szombat</label><br>
-  <label><input type="checkbox" value="0"> Vasárnap</label><br>
+  <p>Nyitvatartási napok:</p>
 
-  <br>
-  <label>Nyitás: <input type="time" id="openTime"></label>
-  <label>Zárás: <input type="time" id="closeTime"></label>
+  <label><input type="checkbox" value="1"> Hétfő</label>
+  <label><input type="checkbox" value="2"> Kedd</label>
+  <label><input type="checkbox" value="3"> Szerda</label>
+  <label><input type="checkbox" value="4"> Csütörtök</label>
+  <label><input type="checkbox" value="5"> Péntek</label>
+  <label><input type="checkbox" value="6"> Szombat</label>
+  <label><input type="checkbox" value="0"> Vasárnap</label>
 
   <br><br>
+
   <button onclick="saveAdmin()">Mentés</button>
 </section>
 
-<footer>
-  © 2026 Bombahaj Fodrászat
-</footer>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-  const status = document.getElementById("status");
-  if (status.classList.contains("red")) return;
-
-  const baseStart = 10;
-  const baseEnd = 20;
-
-  let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
-  let selected = null;
 
   const dateInput = document.getElementById("date");
   const serviceSelect = document.getElementById("service");
   const timesDiv = document.getElementById("times");
 
+  const baseStart = 10;
+  const baseEnd = 20;
+
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
+  let admin = JSON.parse(localStorage.getItem("adminSettings")) || {};
+  let selected = null;
+
   dateInput.addEventListener("change", generate);
   serviceSelect.addEventListener("change", generate);
 
-  function getDuration() {
-    return parseInt(serviceSelect.value);
+  // 🔥 nap ellenőrzés
+  function isAllowedDay(dateStr) {
+    if (!admin.days) return true;
+
+    let d = new Date(dateStr).getDay();
+    return admin.days.includes(d);
   }
 
   function generate() {
+
     const date = dateInput.value;
     if (!date) return;
 
     timesDiv.innerHTML = "";
 
-    const duration = getDuration();
-    const day = bookings[date] || [];
+    if (!isAllowedDay(date)) {
+      timesDiv.innerHTML = "❌ Ezen a napon nincs nyitva!";
+      return;
+    }
+
+    const duration = parseInt(serviceSelect.value);
+    const dayBookings = bookings[date] || [];
 
     for (let h = baseStart; h < baseEnd; h++) {
       for (let m = 0; m < 60; m += 15) {
@@ -137,7 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (end > baseEnd * 60) continue;
 
-        let conflict = day.some(b =>
+        // 🔥 ÜTKÖZÉS ELLENŐRZÉS (FIX)
+        let conflict = dayBookings.some(b =>
           start < b.end && end > b.start
         );
 
@@ -148,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (conflict) {
           btn.disabled = true;
+          btn.style.opacity = "0.3";
         } else {
           btn.onclick = () => {
             selected = { date, start, end };
@@ -162,7 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.book = function () {
 
-    if (!selected) return alert("Válassz időpontot!");
+    if (!selected) {
+      alert("Válassz időpontot!");
+      return;
+    }
 
     let d = selected.date;
 
@@ -183,14 +169,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+/* =====================
+   ADMIN MENTÉS
+===================== */
 function saveAdmin() {
+
   let days = [];
-  document.querySelectorAll("#adminPanel input[type=checkbox]").forEach(c => {
-    if (c.checked) days.push(c.value);
+  document.querySelectorAll("input[type=checkbox]").forEach(c => {
+    if (c.checked) days.push(parseInt(c.value));
   });
 
-  localStorage.setItem("admin", JSON.stringify(days));
-  alert("Mentve!");
+  localStorage.setItem("adminSettings", JSON.stringify({
+    days: days
+  }));
+
+  alert("Admin mentve!");
 }
 </script>
 
