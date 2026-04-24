@@ -85,16 +85,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const statusElement = document.getElementById("status");
-  const bookingSection = document.getElementById("booking");
 
-  // ha zárva → nincs foglalás
-  if (statusElement.classList.contains("red")) {
-    bookingSection.style.display = "none";
-    return;
-  }
+  if (statusElement.classList.contains("red")) return;
 
-  const baseStart = 9;
-  const baseEnd = 18;
+  const baseStart = 10;  // 10:00
+  const baseEnd = 20;    // 20:00
 
   let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
   let selected = null;
@@ -103,25 +98,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const serviceSelect = document.getElementById("service");
   const timesDiv = document.getElementById("times");
 
-  // minimum dátum (ne lehessen múltba)
-  const today = new Date().toISOString().split("T")[0];
-  dateInput.min = today;
+  if (!dateInput || !serviceSelect || !timesDiv) return;
 
   dateInput.addEventListener("change", generateTimes);
   serviceSelect.addEventListener("change", generateTimes);
 
+  const services = {
+    "male": 60,
+    "female": 90,
+    "melir": 180
+  };
+
+  function getDuration() {
+    return parseInt(serviceSelect.value);
+  }
+
   function generateTimes() {
     const date = dateInput.value;
-
-    // ❗ JAVÍTÁS: ha nincs dátum → ne számoljon
-    if (!date) {
-      timesDiv.innerHTML = "Válassz dátumot!";
-      return;
-    }
+    if (!date) return;
 
     timesDiv.innerHTML = "";
 
-    const duration = parseInt(serviceSelect.value);
+    const duration = getDuration();
     const dayBookings = bookings[date] || [];
 
     for (let h = baseStart; h < baseEnd; h++) {
@@ -136,18 +134,18 @@ document.addEventListener("DOMContentLoaded", () => {
           start < b.end && end > b.start
         );
 
-        const label = `${String(h).padStart(2,'0')}:${m === 0 ? '00' : m}`;
+        const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 
         const btn = document.createElement("button");
         btn.textContent = label;
 
         if (conflict) {
           btn.disabled = true;
-          btn.style.opacity = "0.4";
+          btn.style.opacity = "0.3";
         } else {
           btn.onclick = () => {
             selected = { start, end, date };
-            alert("Kiválasztva: " + date + " " + label);
+            alert("Kiválasztva: " + label);
           };
         }
 
@@ -158,17 +156,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.book = function () {
 
-    // ❗ JAVÍTÁS: dátum + időpont kötelező
-    if (!selected || !selected.date) {
-      alert("Válassz dátumot és időpontot!");
+    if (!selected) {
+      alert("Válassz időpontot!");
       return;
     }
 
-    if (!bookings[selected.date]) {
-      bookings[selected.date] = [];
-    }
+    const date = selected.date;
 
-    bookings[selected.date].push({
+    if (!bookings[date]) bookings[date] = [];
+
+    bookings[date].push({
       start: selected.start,
       end: selected.end
     });
@@ -179,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selected = null;
     generateTimes();
-  }
+  };
 
 });
 </script>
