@@ -224,5 +224,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+<section id="adminPanel" class="pop">
+  <h2>Admin panel</h2>
+
+  <h3>Nyitvatartási napok</h3>
+
+  <label><input type="checkbox" value="1"> Hétfő</label><br>
+  <label><input type="checkbox" value="2"> Kedd</label><br>
+  <label><input type="checkbox" value="3"> Szerda</label><br>
+  <label><input type="checkbox" value="4"> Csütörtök</label><br>
+  <label><input type="checkbox" value="5"> Péntek</label><br>
+  <label><input type="checkbox" value="6"> Szombat</label><br>
+  <label><input type="checkbox" value="0"> Vasárnap</label><br>
+
+  <h3>Nyitvatartás</h3>
+  <label>Nyitás: <input type="time" id="openTime" value="10:00"></label><br>
+  <label>Zárás: <input type="time" id="closeTime" value="18:00"></label><br>
+
+  <br>
+  <button onclick="saveAdmin()">Mentés</button>
+</section>
+
+
+
+
+
+<script>
+function saveAdmin() {
+
+  const days = [];
+  document.querySelectorAll("#adminPanel input[type=checkbox]").forEach(cb => {
+    if (cb.checked) days.push(parseInt(cb.value));
+  });
+
+  const openTime = document.getElementById("openTime").value;
+  const closeTime = document.getElementById("closeTime").value;
+
+  const settings = {
+    days,
+    openTime,
+    closeTime
+  };
+
+  localStorage.setItem("adminSettings", JSON.stringify(settings));
+
+  alert("Admin beállítás mentve!");
+}
+</script>
+
+
+
+  
+
 </body>
 </html>
