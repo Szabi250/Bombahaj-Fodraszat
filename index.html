@@ -3,35 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bombahaj Fodrászat – Németh Mónika Kaposváron.">
-  
-  <link rel="icon" type="image/png" href="Bombahaj Fodrászat Logó.png">
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Bombahaj Fodrászat – Időpontfoglalás">
 
+  <link rel="stylesheet" href="style.css">
   <title>Bombahaj Fodrászat</title>
 </head>
 
 <body>
 
 <header class="hero">
-  <div class="hero-content">
-    <img src="Fodrász.png" class="logo" alt="logó">
+  <img src="Fodrász.png" class="logo" alt="logó">
 
-    <h1>Bombahaj Fodrászat</h1>
-    <p>Stílus. Minőség. Magabiztosság.</p>
+  <h1>Bombahaj Fodrászat</h1>
+  <p>Stílus. Minőség. Magabiztosság.</p>
 
-    <div id="status" class="status green">🟢 Most lehet foglalni!</div>
-  </div>
+  <div id="status" class="status green">🟢 Most lehet foglalni!</div>
 </header>
 
 <section class="contact">
   <h2>Üdvözöllek!</h2>
-  <p>Minőségi hajvágás, festés és stílus tanácsadás.</p>
+  <p>Minőségi hajvágás és festés.</p>
 </section>
 
 <section class="hours">
   <h3>Nyitvatartás</h3>
-  <p>Előzetes időpontfoglalással működik.</p>
+  <p>Előzetes időpontfoglalás szükséges.</p>
 </section>
 
 <section class="contact">
@@ -45,20 +41,20 @@
   <div class="gallery-grid">
     <img src="1.jpg">
     <img src="2.jpg">
+    <img src="3.jpg">
+    <img src="4.jpg">
   </div>
 </section>
 
-
-
-
+<!-- FOGLALÁS -->
 <section id="booking" class="pop">
   <h2>Időpont foglalás</h2>
 
   <label>Szolgáltatás:</label>
   <select id="service">
-    <option value="30">Férfi hajvágás (30p)</option>
-    <option value="60">Női hajvágás (60p)</option>
-    <option value="90">Hajvágás + mosás (90p)</option>
+    <option value="30">Férfi vágás (30p)</option>
+    <option value="60">Női vágás (60p)</option>
+    <option value="90">Mosás + vágás (90p)</option>
     <option value="120">Melír (120p)</option>
     <option value="180">Festés (180p)</option>
   </select>
@@ -70,7 +66,6 @@
 
   <br><br>
 
-  <label>Időpont:</label>
   <div id="times"></div>
 
   <br>
@@ -78,18 +73,38 @@
   <button onclick="book()">Foglalás</button>
 </section>
 
+<!-- ADMIN -->
+<section id="adminPanel" class="pop">
+  <h2>Admin panel</h2>
 
+  <label><input type="checkbox" value="1"> Hétfő</label><br>
+  <label><input type="checkbox" value="2"> Kedd</label><br>
+  <label><input type="checkbox" value="3"> Szerda</label><br>
+  <label><input type="checkbox" value="4"> Csütörtök</label><br>
+  <label><input type="checkbox" value="5"> Péntek</label><br>
+  <label><input type="checkbox" value="6"> Szombat</label><br>
+  <label><input type="checkbox" value="0"> Vasárnap</label><br>
 
+  <br>
+  <label>Nyitás: <input type="time" id="openTime"></label>
+  <label>Zárás: <input type="time" id="closeTime"></label>
+
+  <br><br>
+  <button onclick="saveAdmin()">Mentés</button>
+</section>
+
+<footer>
+  © 2026 Bombahaj Fodrászat
+</footer>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const statusElement = document.getElementById("status");
+  const status = document.getElementById("status");
+  if (status.classList.contains("red")) return;
 
-  if (statusElement.classList.contains("red")) return;
-
-  const baseStart = 10;  // 10:00
-  const baseEnd = 20;    // 20:00
+  const baseStart = 10;
+  const baseEnd = 20;
 
   let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
   let selected = null;
@@ -98,29 +113,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const serviceSelect = document.getElementById("service");
   const timesDiv = document.getElementById("times");
 
-  if (!dateInput || !serviceSelect || !timesDiv) return;
-
-  dateInput.addEventListener("change", generateTimes);
-  serviceSelect.addEventListener("change", generateTimes);
-
-  const services = {
-    "male": 60,
-    "female": 90,
-    "melir": 180
-  };
+  dateInput.addEventListener("change", generate);
+  serviceSelect.addEventListener("change", generate);
 
   function getDuration() {
     return parseInt(serviceSelect.value);
   }
 
-  function generateTimes() {
+  function generate() {
     const date = dateInput.value;
     if (!date) return;
 
     timesDiv.innerHTML = "";
 
     const duration = getDuration();
-    const dayBookings = bookings[date] || [];
+    const day = bookings[date] || [];
 
     for (let h = baseStart; h < baseEnd; h++) {
       for (let m = 0; m < 60; m += 15) {
@@ -130,21 +137,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (end > baseEnd * 60) continue;
 
-        let conflict = dayBookings.some(b =>
+        let conflict = day.some(b =>
           start < b.end && end > b.start
         );
 
-        const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+        let label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 
-        const btn = document.createElement("button");
+        let btn = document.createElement("button");
         btn.textContent = label;
 
         if (conflict) {
           btn.disabled = true;
-          btn.style.opacity = "0.3";
         } else {
           btn.onclick = () => {
-            selected = { start, end, date };
+            selected = { date, start, end };
             alert("Kiválasztva: " + label);
           };
         }
@@ -156,16 +162,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.book = function () {
 
-    if (!selected) {
-      alert("Válassz időpontot!");
-      return;
-    }
+    if (!selected) return alert("Válassz időpontot!");
 
-    const date = selected.date;
+    let d = selected.date;
 
-    if (!bookings[date]) bookings[date] = [];
+    if (!bookings[d]) bookings[d] = [];
 
-    bookings[date].push({
+    bookings[d].push({
       start: selected.start,
       end: selected.end
     });
@@ -175,106 +178,21 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Foglalás mentve!");
 
     selected = null;
-    generateTimes();
+    generate();
   };
 
 });
-</script>
 
-
-
-<script type="module">
-  // Firebase kód ide
-</script>
-
-
-
-
-
-
-<!-- FIREBASE START -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-  import { getFirestore, addDoc, collection } 
-  from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "API",
-    authDomain: "DOMAIN",
-    projectId: "ID",
-    storageBucket: "BUCKET",
-    messagingSenderId: "ID",
-    appId: "ID"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.book = async function (name, phone, service, date, time) {
-    await addDoc(collection(db, "bookings"), {
-      name, phone, service, date, time
-    });
-
-    alert("Foglalás mentve!");
-  };
-</script>
-<!-- FIREBASE END -->
-
-  
-
-
-
-<section id="adminPanel" class="pop">
-  <h2>Admin panel</h2>
-
-  <h3>Nyitvatartási napok</h3>
-
-  <label><input type="checkbox" value="1"> Hétfő</label><br>
-  <label><input type="checkbox" value="2"> Kedd</label><br>
-  <label><input type="checkbox" value="3"> Szerda</label><br>
-  <label><input type="checkbox" value="4"> Csütörtök</label><br>
-  <label><input type="checkbox" value="5"> Péntek</label><br>
-  <label><input type="checkbox" value="6"> Szombat</label><br>
-  <label><input type="checkbox" value="0"> Vasárnap</label><br>
-
-  <h3>Nyitvatartás</h3>
-  <label>Nyitás: <input type="time" id="openTime" value="10:00"></label><br>
-  <label>Zárás: <input type="time" id="closeTime" value="18:00"></label><br>
-
-  <br>
-  <button onclick="saveAdmin()">Mentés</button>
-</section>
-
-
-
-
-
-<script>
 function saveAdmin() {
-
-  const days = [];
-  document.querySelectorAll("#adminPanel input[type=checkbox]").forEach(cb => {
-    if (cb.checked) days.push(parseInt(cb.value));
+  let days = [];
+  document.querySelectorAll("#adminPanel input[type=checkbox]").forEach(c => {
+    if (c.checked) days.push(c.value);
   });
 
-  const openTime = document.getElementById("openTime").value;
-  const closeTime = document.getElementById("closeTime").value;
-
-  const settings = {
-    days,
-    openTime,
-    closeTime
-  };
-
-  localStorage.setItem("adminSettings", JSON.stringify(settings));
-
-  alert("Admin beállítás mentve!");
+  localStorage.setItem("admin", JSON.stringify(days));
+  alert("Mentve!");
 }
 </script>
-
-
-
-  
 
 </body>
 </html>
