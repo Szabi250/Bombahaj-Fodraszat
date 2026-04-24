@@ -3,149 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bombahaj Fodrászat – Németh Mónika Kaposváron. Időpontfoglalás telefonon vagy Facebookon.">
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <meta name="description" content="Bombahaj Fodrászat – Németh Mónika Kaposváron.">
+  
   <link rel="icon" type="image/png" href="Bombahaj Fodrászat Logó.png">
   <link rel="stylesheet" href="style.css">
+
   <title>Bombahaj Fodrászat</title>
 </head>
+
 <body>
 
-  
-<header>
-    <img src="Fodrász.png" alt="Bombahaj Fodrászat logó">
-<section class="status-box">
-    <h2>Foglalás állapota</h2>
-    <div id="status" class="status red">🔴 !Jelenleg zárva vagyunk!</div>
-    <!-- Ha nem fogadtok új vendégeket, cseréld "green" -> "red"-re és a szöveget: 🔴 !Jelenleg nem fogadunk új vendégeket!  or / 🔴 !Jelenleg zárva vagyunk!-->
-    <!--Ha fogadunk vendéget akkor, cseréld "red" -> "green"-re és a szöveget: 🟢 Most lehet foglalni!-->
-</section>
+<header class="hero">
+  <div class="hero-content">
+    <img src="Fodrász.png" class="logo" alt="logó">
+
+    <h1>Bombahaj Fodrászat</h1>
+    <p>Stílus. Minőség. Magabiztosság.</p>
+
+    <div id="status" class="status green">🟢 Most lehet foglalni!</div>
+  </div>
 </header>
 
-
-<section class="contact" data-aos="zoom-in">
-    <h2>Üdvözöllek!</h2>
-    <p>Szeretettel várok minden szépülni vágyó férfi,nőt és gyermeket a Bombahaj Fodrászat weboldalán! Minőségi hajvágás, festés és stílus tanácsadás barátságos környezetben.</p>
+<section class="contact">
+  <h2>Üdvözöllek!</h2>
+  <p>Minőségi hajvágás, festés és stílus tanácsadás.</p>
 </section>
 
-
-
-<section class="hours" class="availability" data-aos="fade-up">
+<section class="hours">
   <h3>Nyitvatartás</h3>
-  <ul>
-    <li><p>A szalon előzetes időpontfoglalással működik.</p></li>
-    <li><p>Nyitva csak akkor, ha az adott napra van foglalt vendég.</p></li>
-    <li><p>Kérlek, minden esetben egyeztess időpontot telefonon, Facebookon vagy itt a weboldalon!</p></li>
-  </ul>
+  <p>Előzetes időpontfoglalással működik.</p>
 </section>
 
-
-
-<section class="contact" class="availability" data-aos="fade-up">
+<section class="contact">
   <h3>Kapcsolat</h3>
-    <p>📍 Cím: 7400 Kaposvár, Gyár utca 28.</p>
-    <p>📞 Telefonszám: <strong>06 20 / 431-5206</strong></p>
-    <p>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=100068438092342" target="_blank">Bombahaj Fodrászat</a></p>
-    <p><em>Bejelentkezés Telefonon, Facebookon vagy itt a Weboldalon lehetséges!</em></p>
+  <p>📍 Kaposvár</p>
+  <p>📞 06 20 / 431-5206</p>
+</section>
+
+<section class="gallery">
+  <h2>Galéria</h2>
+  <div class="gallery-grid">
+    <img src="1.jpg">
+    <img src="2.jpg">
+  </div>
 </section>
 
 
 
 
-<section class="gallery" data-aos="zoom-in">
-  <h2>frizura galéria</h2>
-    <div class="gallery-grid">
-      <img src="2.jpg">
-      <img src="1.jpg">
-      <img src="3.jpg">
-      <img src="4.jpg">
-      <img src="5.jpg">
-      <img src="6.jpg">
-      <img src="7.jpg">
-      <img src="8.jpg">
-      <img src="9.jpg">
-    </div>
-</section>
-
-
-<section class="gallery" data-aos="zoom-in">
-  <h2>Üzlet galéria</h2>
-    <div class="gallery-grid">
-      <img src="10.jpg">
-      <img src="11.jpg">
-      <img src="12.jpg">
-      <img src="13.jpg">
-      <img src="14.jpg">
-    </div>
-</section>
-
-
-
-
-
-
-<section id="booking-form-section" style="display: none;" class="pop">
+<section id="booking" class="pop">
   <h2>Időpont foglalás</h2>
-  <p>Töltsd ki az alábbi űrlapot, és hamarosan felvesszük veled a kapcsolatot!</p>
 
-  <form action="https://formsubmit.co/szabolcssandor055@gmail.com" method="POST">
-    
-    <!-- Captcha kikapcsolása -->
-    <input type="hidden" name="_captcha" value="false">
+  <label>Szolgáltatás:</label>
+  <select id="service">
+    <option value="30">Férfi hajvágás (30p)</option>
+    <option value="60">Női hajvágás (60p)</option>
+    <option value="90">Hajvágás + mosás (90p)</option>
+    <option value="120">Melír (120p)</option>
+    <option value="180">Festés (180p)</option>
+  </select>
 
-    <!-- Köszönő oldal (opcionális, de ajánlott) -->
-    <input type="hidden" name="_next" value="https://szabi250.github.io/Bombahaj-Fodraszat/">
+  <br><br>
 
-    <label>Név:<br>
-    <input type="text" name="name" required>
-    </label><br><br>
+  <label>Dátum:</label>
+  <input type="date" id="date">
 
+  <br><br>
 
-    <label>Telefonszám:<br>
-    <input type="tel" name="phone" required>
-    </label><br><br>
+  <label>Időpont:</label>
+  <div id="times"></div>
 
-    <label>Üzenet:<br>
-    <textarea name="message" rows="4" placeholder="Pl. vágás + festés, hétköznap délután..."></textarea>
-    </label><br><br>
+  <br>
 
-    <button type="submit">Küldés</button>
-  </form>
+  <button onclick="book()">Foglalás</button>
 </section>
 
 
 
 
-
-
-
-<footer>
-  Copyright &copy; 2026 Bombahaj Fodrászat – Minden jog fenntartva!
-</footer>
-
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
-
 <script>
-  AOS.init();
-</script>
+document.addEventListener("DOMContentLoaded", () => {
 
-
-<script>
   const statusElement = document.getElementById("status");
-  const bookingFormSection = document.getElementById("booking-form-section");
+  const bookingSection = document.getElementById("booking");
 
-  if (statusElement.classList.contains("green")) {
-    bookingFormSection.style.display = "block";
-  } else {
-    bookingFormSection.style.display = "none";
+  // ha zárva → nincs foglalás
+  if (statusElement.classList.contains("red")) {
+    bookingSection.style.display = "none";
+    return;
   }
-</script>
 
+  const baseStart = 9;
+  const baseEnd = 18;
+
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
+  let selected = null;
+
+  const dateInput = document.getElementById("date");
+  const serviceSelect = document.getElementById("service");
+  const timesDiv = document.getElementById("times");
+
+  // minimum dátum (ne lehessen múltba)
+  const today = new Date().toISOString().split("T")[0];
+  dateInput.min = today;
+
+  dateInput.addEventListener("change", generateTimes);
+  serviceSelect.addEventListener("change", generateTimes);
+
+  function generateTimes() {
+    const date = dateInput.value;
+
+    // ❗ JAVÍTÁS: ha nincs dátum → ne számoljon
+    if (!date) {
+      timesDiv.innerHTML = "Válassz dátumot!";
+      return;
+    }
+
+    timesDiv.innerHTML = "";
+
+    const duration = parseInt(serviceSelect.value);
+    const dayBookings = bookings[date] || [];
+
+    for (let h = baseStart; h < baseEnd; h++) {
+      for (let m = 0; m < 60; m += 15) {
+
+        let start = h * 60 + m;
+        let end = start + duration;
+
+        if (end > baseEnd * 60) continue;
+
+        let conflict = dayBookings.some(b =>
+          start < b.end && end > b.start
+        );
+
+        const label = `${String(h).padStart(2,'0')}:${m === 0 ? '00' : m}`;
+
+        const btn = document.createElement("button");
+        btn.textContent = label;
+
+        if (conflict) {
+          btn.disabled = true;
+          btn.style.opacity = "0.4";
+        } else {
+          btn.onclick = () => {
+            selected = { start, end, date };
+            alert("Kiválasztva: " + date + " " + label);
+          };
+        }
+
+        timesDiv.appendChild(btn);
+      }
+    }
+  }
+
+  window.book = function () {
+
+    // ❗ JAVÍTÁS: dátum + időpont kötelező
+    if (!selected || !selected.date) {
+      alert("Válassz dátumot és időpontot!");
+      return;
+    }
+
+    if (!bookings[selected.date]) {
+      bookings[selected.date] = [];
+    }
+
+    bookings[selected.date].push({
+      start: selected.start,
+      end: selected.end
+    });
+
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+
+    alert("Foglalás mentve!");
+
+    selected = null;
+    generateTimes();
+  }
+
+});
+</script>
 
 </body>
-
 </html>
-
-
-
