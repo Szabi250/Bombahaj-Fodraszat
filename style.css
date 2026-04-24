@@ -1,149 +1,203 @@
+/* =========================
+   ALAP
+========================= */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8e0d2;
-    color: #333;
-    background: linear-gradient(to bottom, #fff0f5, #ffffff);
-    }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #fff0f5, #ffffff);
+  color: #333;
+}
 
-header {
-    background-color: #ffb6c1;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-size: 19px;
-    }
+/* =========================
+   HERO
+========================= */
+.hero {
+  background: linear-gradient(135deg, #fdafbb, #fd4668);
+  color: #fff;
+  text-align: center;
+  padding: 5rem 1rem;
+}
 
-section {
-    padding: 1rem;
-    }
+.logo {
+  max-width: 180px;
+  margin-bottom: 1rem;
+}
 
-.contact, .availability, .hours {
-    background-color: #f8bcd0;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 750px;
-    margin: 2rem auto;
-    font-size: 19px;
-    }
+.hero h1 {
+  font-size: 2.5rem;
+}
 
-.contact p, .availability p, .hours ul {
-    margin: 1rem 0;
-    }
+.hero p {
+  opacity: 0.9;
+}
 
+/* =========================
+   STATUS
+========================= */
 .status {
-    padding: 1rem;
-    font-weight: bold;
-    border-radius: 25px;
-    text-align: center;
-    }
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-top: 1rem;
+}
 
 .status.green {
-    color: #006400;
-    background-color: #b0f7c7;
-    border: 4px solid #28a745;
-    }
+  background: #2ecc71;
+  color: #fff;
+}
 
 .status.red {
-    color: #721c24;
-    background-color: #f79d9d;
-    border: 4px solid #dc3545;
-    }
-
-a {
-    color: #c71585;
-    text-decoration: none;
-    }
-
-a:hover {
-    text-decoration: underline;
-    }
-
-footer {
-    background-color: #ffb6c1;
-    color: white;
-    text-align: center;
-    padding: 2rem;
-    margin-top: 2rem;
-    }
-
-header img {
-  max-width: 350px;
-  height: auto;
-  margin-bottom: 1rem;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  background: #ff4d5e;
+  color: #fff;
 }
 
-a:hover {
-  color: #6324f5;
-  text-decoration: underline;
+/* =========================
+   SZEKCIÓK
+========================= */
+section {
+  padding: 1rem;
 }
 
+.contact, .hours {
+  background: #ff9db8;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 750px;
+  margin: 2rem auto;
+  font-size: 18px;
+}
 
-
+/* =========================
+   GALÉRIA
+========================= */
 .gallery {
   text-align: center;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #f88aaf;
+  background: #ff7aa2;
   border-radius: 10px;
-  max-width: 800px;
-}
-
-.gallery h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+  max-width: 1000px;
+  color: white;
 }
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
   justify-items: center;
+  align-items: start;
 }
 
 .gallery-grid img {
   width: 100%;
+  max-width: 250px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s;
+  object-fit: cover;
 }
 
 .gallery-grid img:hover {
   transform: scale(1.05);
 }
 
-
-
-.card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* =========================
+   LIGHTBOX
+========================= */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
 }
 
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.lightbox span {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================
+   FOGLALÁS
+========================= */
+.pop {
+  background: #ff9db8;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#times button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}
+
+#times button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+/* =========================
+   GOMBOK
+========================= */
 button {
-  background-color: #ff4d6d;
+  background: #ff4d6d;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 30px;
   cursor: pointer;
 }
+
 button:hover {
-  background-color: #e43b5b;
+  background: #e63958;
 }
 
-.pop {
-  border-radius: 10px;
-  background-color: #f8bcd0;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background: #ff7b93;
+  color: white;
   text-align: center;
-  font-size: 23px;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+/* =========================
+   MOBIL
+========================= */
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
 }
