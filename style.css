@@ -60,7 +60,8 @@ section {
   padding: 1rem;
 }
 
-.contact, .hours {
+.contact,
+.hours {
   background: #ff9db8;
   padding: 2rem;
   border-radius: 10px;
@@ -70,7 +71,7 @@ section {
 }
 
 /* =========================
-   GALÉRIA
+   GALÉRIA (FIXELVE)
 ========================= */
 .gallery {
   text-align: center;
@@ -78,25 +79,25 @@ section {
   padding: 2rem;
   background: #ff7aa2;
   border-radius: 10px;
-  max-width: 1000px;
+  max-width: 1200px;
   color: white;
 }
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
   justify-items: center;
-  align-items: start;
+  align-items: stretch;
 }
 
 .gallery-grid img {
   width: 100%;
-  max-width: 250px;
+  height: 220px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
   object-fit: cover;
 }
 
@@ -105,7 +106,7 @@ section {
 }
 
 /* =========================
-   LIGHTBOX
+   LIGHTBOX (későbbi funkció)
 ========================= */
 .lightbox {
   display: none;
