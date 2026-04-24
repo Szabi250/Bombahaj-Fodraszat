@@ -189,6 +189,43 @@ document.addEventListener("DOMContentLoaded", () => {
 <script type="module">
   // Firebase kód ide
 </script>
+
+
+
+
+
+
+<!-- FIREBASE START -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getFirestore, addDoc, collection } 
+  from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "API",
+    authDomain: "DOMAIN",
+    projectId: "ID",
+    storageBucket: "BUCKET",
+    messagingSenderId: "ID",
+    appId: "ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.book = async function (name, phone, service, date, time) {
+    await addDoc(collection(db, "bookings"), {
+      name, phone, service, date, time
+    });
+
+    alert("Foglalás mentve!");
+  };
+</script>
+<!-- FIREBASE END -->
+
   
+
+
+
 </body>
 </html>
