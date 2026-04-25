@@ -3,22 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bombahaj Fodrászat – Kaposvár">
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="Bombahaj Fodrászat Logó.png">
-  <link rel="stylesheet" href="style.css">
   <title>Bombahaj Fodrászat</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
   <img src="Fodrász.png" alt="logó">
+  <h1>Bombahaj Fodrászat</h1>
 
-  <section class="status-box">
-    <h2>Foglalás állapota</h2>
-    <div id="status" class="status red">🔴 Zárva</div>
-  </section>
+  <div class="status red">
+    🔴 Jelenleg zárva vagyunk
+  </div>
 </header>
 
 <section class="contact">
@@ -37,7 +34,6 @@
   <p>📞 06 20 / 431-5206</p>
 </section>
 
-<!-- ================= GALÉRIA ================= -->
 <section class="gallery">
   <h2>Frizura galéria</h2>
   <div class="gallery-grid">
@@ -56,98 +52,18 @@
     <img src="10.jpg">
     <img src="11.jpg">
     <img src="12.jpg">
+    <img src="13.jpg">
   </div>
 </section>
 
-<!-- ================= PRO FOGLALÁS ================= -->
 <section class="pop">
-  <h2>Időpontfoglalás (PRO)</h2>
-
-  <label>Szolgáltatás:</label>
-  <select id="service">
-    <option value="30">Férfi vágás (30p)</option>
-    <option value="60">Női vágás (60p)</option>
-    <option value="90">Mosás + vágás</option>
-  </select>
-
-  <br><br>
-
-  <label>Dátum:</label>
-  <input type="date" id="date">
-
-  <br><br>
-
-  <div id="times"></div>
-
-  <br>
-  <button onclick="book()">Foglalás</button>
+  <h2>Időpontfoglalás</h2>
+  <p>Hamarosan visszatér az online foglalás rendszer.</p>
 </section>
 
-<!-- ================= JS ================= -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const dateInput = document.getElementById("date");
-  const serviceSelect = document.getElementById("service");
-  const timesDiv = document.getElementById("times");
-
-  const baseStart = 10;
-  const baseEnd = 20;
-
-  let selected = null;
-
-  function generate() {
-
-    const date = dateInput.value;
-    if (!date) return;
-
-    timesDiv.innerHTML = "";
-
-    const duration = parseInt(serviceSelect.value);
-
-    for (let h = baseStart; h < baseEnd; h++) {
-      for (let m = 0; m < 60; m += 15) {
-
-        let start = h * 60 + m;
-        let end = start + duration;
-
-        if (end > baseEnd * 60) continue;
-
-        let label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-
-        let btn = document.createElement("button");
-        btn.textContent = label;
-
-        btn.onclick = () => {
-          selected = { date, start, end, label };
-          alert("Kiválasztva: " + label);
-        };
-
-        timesDiv.appendChild(btn);
-      }
-    }
-  }
-
-  dateInput.addEventListener("change", generate);
-  serviceSelect.addEventListener("change", generate);
-
-  window.getSelected = () => selected;
-
-  window.book = function () {
-    if (!selected) {
-      alert("Válassz időpontot!");
-      return;
-    }
-
-    alert("Foglalás mentve (demo)");
-  };
-
-});
-</script>
-
-<!-- AOS -->
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>AOS.init();</script>
+<footer>
+  © 2026 Bombahaj Fodrászat
+</footer>
 
 </body>
 </html>
