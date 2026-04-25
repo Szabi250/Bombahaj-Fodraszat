@@ -11,20 +11,10 @@
 
 <header class="hero">
   <h1>Bombahaj Fodrászat</h1>
-  <div id="status" class="status green">🟢 Foglalható</div>
+  <p>Stílus. Minőség. Magabiztosság.</p>
+  <div class="status green">🟢 Foglalható</div>
 </header>
 
-<section class="gallery">
-  <h2>Galéria</h2>
-  <div class="gallery-grid">
-    <img src="1.jpg">
-    <img src="2.jpg">
-    <img src="3.jpg">
-    <img src="4.jpg">
-  </div>
-</section>
-
-<!-- FOGLALÁS -->
 <section class="pop">
   <h2>Időpontfoglalás</h2>
 
@@ -47,29 +37,10 @@
   <div id="times"></div>
 
   <br>
-
   <button onclick="book()">Foglalás</button>
 </section>
 
-<!-- ADMIN -->
-<section class="pop">
-  <h2>Admin panel</h2>
-
-  <p>Nyitvatartási napok:</p>
-
-  <label><input type="checkbox" value="1"> Hétfő</label>
-  <label><input type="checkbox" value="2"> Kedd</label>
-  <label><input type="checkbox" value="3"> Szerda</label>
-  <label><input type="checkbox" value="4"> Csütörtök</label>
-  <label><input type="checkbox" value="5"> Péntek</label>
-  <label><input type="checkbox" value="6"> Szombat</label>
-  <label><input type="checkbox" value="0"> Vasárnap</label>
-
-  <br><br>
-
-  <button onclick="saveAdmin()">Mentés</button>
-</section>
-
+<!-- ================= JS (IDŐPONT LOGIKA) ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -80,35 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const baseStart = 10;
   const baseEnd = 20;
 
-  let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
-  let admin = JSON.parse(localStorage.getItem("adminSettings")) || {};
   let selected = null;
 
   dateInput.addEventListener("change", generate);
   serviceSelect.addEventListener("change", generate);
 
-  // 🔥 nap ellenőrzés
-  function isAllowedDay(dateStr) {
-    if (!admin.days) return true;
-
-    let d = new Date(dateStr).getDay();
-    return admin.days.includes(d);
-  }
-
   function generate() {
-
     const date = dateInput.value;
     if (!date) return;
 
     timesDiv.innerHTML = "";
 
-    if (!isAllowedDay(date)) {
-      timesDiv.innerHTML = "❌ Ezen a napon nincs nyitva!";
-      return;
-    }
-
     const duration = parseInt(serviceSelect.value);
-    const dayBookings = bookings[date] || [];
 
     for (let h = baseStart; h < baseEnd; h++) {
       for (let m = 0; m < 60; m += 15) {
@@ -118,73 +72,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (end > baseEnd * 60) continue;
 
-        // 🔥 ÜTKÖZÉS ELLENŐRZÉS (FIX)
-        let conflict = dayBookings.some(b =>
-          start < b.end && end > b.start
-        );
-
         let label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 
         let btn = document.createElement("button");
         btn.textContent = label;
 
-        if (conflict) {
-          btn.disabled = true;
-          btn.style.opacity = "0.3";
-        } else {
-          btn.onclick = () => {
-            selected = { date, start, end };
-            alert("Kiválasztva: " + label);
-          };
-        }
+        btn.onclick = () => {
+          selected = { date, start, end, label };
+          alert("Kiválasztva: " + label);
+        };
 
         timesDiv.appendChild(btn);
       }
     }
   }
 
-  window.book = function () {
-
-    if (!selected) {
-      alert("Válassz időpontot!");
-      return;
-    }
-
-    let d = selected.date;
-
-    if (!bookings[d]) bookings[d] = [];
-
-    bookings[d].push({
-      start: selected.start,
-      end: selected.end
-    });
-
-    localStorage.setItem("bookings", JSON.stringify(bookings));
-
-    alert("Foglalás mentve!");
-
-    selected = null;
-    generate();
-  };
+  window.getSelected = () => selected;
 
 });
+</script>
 
-/* =====================
-   ADMIN MENTÉS
-===================== */
-function saveAdmin() {
+<!-- ================= FIREBASE ================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore, collection, addDoc }
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-  let days = [];
-  document.querySelectorAll("input[type=checkbox]").forEach(c => {
-    if (c.checked) days.push(parseInt(c.value));
+const firebaseConfig = {
+  apiKey: "AIzaSyAJ09dkyySZKpf_X6IA_TJbvdEJzM8-mb4",
+  authDomain: "bombahaj-fodraszat.firebaseapp.com",
+  projectId: "bombahaj-fodraszat",
+  storageBucket: "bombahaj-fodraszat.firebasestorage.app",
+  messagingSenderId: "90693281570",
+  appId: "1:90693281570:web:9b17d1e00206baaf63277b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.book = async function () {
+
+  const selected = window.getSelected();
+
+  if (!selected) {
+    alert("Válassz időpontot!");
+    return;
+  }
+
+  await addDoc(collection(db, "bookings"), {
+    date: selected.date,
+    start: selected.start,
+    end: selected.end,
+    time: selected.label,
+    created: new Date()
   });
 
-  localStorage.setItem("adminSettings", JSON.stringify({
-    days: days
-  }));
+  alert("🔥 Foglalás mentve online!");
 
-  alert("Admin mentve!");
-}
+};
 </script>
 
 </body>
