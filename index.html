@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bombahaj Fodrászat</title>
+  <meta name="description" content="Bombahaj Fodrászat – Kaposvár">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="Bombahaj Fodrászat Logó.png">
   <link rel="stylesheet" href="style.css">
+  <title>Bombahaj Fodrászat</title>
 </head>
 
 <body>
 
-<header class="hero">
-  <img src="Fodrász.png" class="logo" alt="logo">
-  <h1>Bombahaj Fodrászat</h1>
-  <p>Stílus. Minőség. Magabiztosság.</p>
-  <div class="status green">🟢 Foglalható</div>
+<header>
+  <img src="Fodrász.png" alt="logó">
+
+  <section class="status-box">
+    <h2>Foglalás állapota</h2>
+    <div id="status" class="status red">🔴 Zárva</div>
+  </section>
 </header>
 
 <section class="contact">
@@ -32,27 +37,37 @@
   <p>📞 06 20 / 431-5206</p>
 </section>
 
+<!-- ================= GALÉRIA ================= -->
 <section class="gallery">
-  <h2>Galéria</h2>
+  <h2>Frizura galéria</h2>
   <div class="gallery-grid">
     <img src="1.jpg">
     <img src="2.jpg">
     <img src="3.jpg">
     <img src="4.jpg">
+    <img src="5.jpg">
+    <img src="6.jpg">
   </div>
 </section>
 
-<!-- ================= FOGLALÁS ================= -->
+<section class="gallery">
+  <h2>Üzlet galéria</h2>
+  <div class="gallery-grid">
+    <img src="10.jpg">
+    <img src="11.jpg">
+    <img src="12.jpg">
+  </div>
+</section>
+
+<!-- ================= PRO FOGLALÁS ================= -->
 <section class="pop">
-  <h2>Időpontfoglalás</h2>
+  <h2>Időpontfoglalás (PRO)</h2>
 
   <label>Szolgáltatás:</label>
   <select id="service">
     <option value="30">Férfi vágás (30p)</option>
     <option value="60">Női vágás (60p)</option>
-    <option value="90">Mosás + vágás (90p)</option>
-    <option value="120">Melír (120p)</option>
-    <option value="180">Festés (180p)</option>
+    <option value="90">Mosás + vágás</option>
   </select>
 
   <br><br>
@@ -68,15 +83,13 @@
   <button onclick="book()">Foglalás</button>
 </section>
 
-<!-- ================= STABIL JS ================= -->
+<!-- ================= JS ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
   const dateInput = document.getElementById("date");
   const serviceSelect = document.getElementById("service");
   const timesDiv = document.getElementById("times");
-
-  if (!dateInput || !serviceSelect || !timesDiv) return;
 
   const baseStart = 10;
   const baseEnd = 20;
@@ -121,22 +134,20 @@ document.addEventListener("DOMContentLoaded", () => {
   window.getSelected = () => selected;
 
   window.book = function () {
-
-    const sel = window.getSelected();
-
-    if (!sel) {
+    if (!selected) {
       alert("Válassz időpontot!");
       return;
     }
 
-    alert("Foglalás mentve (teszt verzió)");
-
-    selected = null;
-    timesDiv.innerHTML = "";
+    alert("Foglalás mentve (demo)");
   };
 
 });
 </script>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
 
 </body>
 </html>
