@@ -20,11 +20,6 @@ body {
   padding: 5rem 1rem;
 }
 
-.logo {
-  max-width: 180px;
-  margin-bottom: 1rem;
-}
-
 .hero h1 {
   font-size: 2.5rem;
 }
@@ -72,7 +67,7 @@ section {
 }
 
 /* =========================
-   GALÉRIA (FIX)
+   GALÉRIA
 ========================= */
 .gallery {
   text-align: center;
@@ -88,8 +83,6 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.2rem;
-  justify-items: center;
-  align-items: stretch;
 }
 
 .gallery-grid img {
@@ -107,7 +100,7 @@ section {
 }
 
 /* =========================
-   FOGLALÁS
+   FOGLALÁS BLOKK
 ========================= */
 .pop {
   background: #ff9db8;
@@ -118,30 +111,55 @@ section {
   text-align: center;
 }
 
-/* 👉 IDŐ GOMBOK FIX */
+/* =========================
+   IDŐPONTOK (PRO)
+========================= */
 #times {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
+  margin-top: 10px;
 }
 
-/* 👉 IDŐ GOMB STÍLUS */
+/* normál */
 #times button {
-  min-width: 80px;
-  margin: 5px;
-  padding: 8px 12px;
+  min-width: 85px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
   background: #ff4d6d;
   color: white;
   cursor: pointer;
+  transition: 0.2s;
 }
 
+/* hover */
+#times button:hover {
+  background: #e63958;
+}
+
+/* kiválasztott */
+#times button.active {
+  background: #6a1b9a;
+}
+
+/* foglalt */
 #times button:disabled {
-  background: gray;
+  background: #999;
   cursor: not-allowed;
-  opacity: 0.4;
+  opacity: 0.5;
+}
+
+/* =========================
+   INPUTOK
+========================= */
+select,
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 5px;
 }
 
 /* =========================
@@ -175,11 +193,17 @@ footer {
    MOBIL
 ========================= */
 @media (max-width: 600px) {
+
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .hero h1 {
     font-size: 2rem;
+  }
+
+  #times button {
+    min-width: 70px;
+    font-size: 14px;
   }
 }
