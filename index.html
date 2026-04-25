@@ -65,5 +65,37 @@
   © 2026 Bombahaj Fodrászat
 </footer>
 
+
+<section class="pop">
+  <h2>Admin panel</h2>
+
+  <h3>Nyitvatartás állítása</h3>
+
+  <label>Nyitva:</label><br>
+  <input type="time" id="openTime" value="10:00"><br><br>
+
+  <label>Zárás:</label><br>
+  <input type="time" id="closeTime" value="18:00"><br><br>
+
+  <button onclick="saveAdmin()">Mentés</button>
+</section>
+
+<script>
+function saveAdmin() {
+  const openTime = document.getElementById("openTime").value;
+  const closeTime = document.getElementById("closeTime").value;
+
+  const settings = {
+    openTime,
+    closeTime
+  };
+
+  localStorage.setItem("adminSettings", JSON.stringify(settings));
+
+  alert("Admin beállítás mentve!");
+}
+</script>
+
+  
 </body>
 </html>
