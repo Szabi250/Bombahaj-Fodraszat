@@ -10,11 +10,39 @@
 <body>
 
 <header class="hero">
+  <img src="Fodrász.png" class="logo" alt="logo">
   <h1>Bombahaj Fodrászat</h1>
   <p>Stílus. Minőség. Magabiztosság.</p>
   <div class="status green">🟢 Foglalható</div>
 </header>
 
+<section class="contact">
+  <h2>Üdvözöllek!</h2>
+  <p>Minőségi hajvágás, festés és stílus tanácsadás.</p>
+</section>
+
+<section class="hours">
+  <h3>Nyitvatartás</h3>
+  <p>Előzetes időpontfoglalással működik.</p>
+</section>
+
+<section class="contact">
+  <h3>Kapcsolat</h3>
+  <p>📍 Kaposvár</p>
+  <p>📞 06 20 / 431-5206</p>
+</section>
+
+<section class="gallery">
+  <h2>Galéria</h2>
+  <div class="gallery-grid">
+    <img src="1.jpg">
+    <img src="2.jpg">
+    <img src="3.jpg">
+    <img src="4.jpg">
+  </div>
+</section>
+
+<!-- ================= FOGLALÁS ================= -->
 <section class="pop">
   <h2>Időpontfoglalás</h2>
 
@@ -40,7 +68,7 @@
   <button onclick="book()">Foglalás</button>
 </section>
 
-<!-- ================= FOGLALÁS LOGIKA ================= -->
+<!-- ================= STABIL JS ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -48,29 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const serviceSelect = document.getElementById("service");
   const timesDiv = document.getElementById("times");
 
+  if (!dateInput || !serviceSelect || !timesDiv) return;
+
   const baseStart = 10;
   const baseEnd = 20;
 
   let selected = null;
 
-  dateInput.addEventListener("change", generate);
-  serviceSelect.addEventListener("change", generate);
-
-  window.getSelected = () => selected;
-
-  async function generate() {
+  function generate() {
 
     const date = dateInput.value;
     if (!date) return;
 
-    timesDiv.innerHTML = "Betöltés...";
+    timesDiv.innerHTML = "";
 
     const duration = parseInt(serviceSelect.value);
-
-    const bookings = await window.loadBookings();
-    const dayBookings = bookings[date] || [];
-
-    timesDiv.innerHTML = "";
 
     for (let h = baseStart; h < baseEnd; h++) {
       for (let m = 0; m < 60; m += 15) {
@@ -80,94 +100,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (end > baseEnd * 60) continue;
 
-        let conflict = dayBookings.some(b =>
-          start < b.end && end > b.start
-        );
-
         let label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 
         let btn = document.createElement("button");
         btn.textContent = label;
 
-        if (conflict) {
-          btn.disabled = true;
-          btn.style.opacity = "0.3";
-        } else {
-          btn.onclick = () => {
-            selected = { date, start, end, label };
-            alert("Kiválasztva: " + label);
-          };
-        }
+        btn.onclick = () => {
+          selected = { date, start, end, label };
+          alert("Kiválasztva: " + label);
+        };
 
         timesDiv.appendChild(btn);
       }
     }
   }
 
+  dateInput.addEventListener("change", generate);
+  serviceSelect.addEventListener("change", generate);
+
+  window.getSelected = () => selected;
+
+  window.book = function () {
+
+    const sel = window.getSelected();
+
+    if (!sel) {
+      alert("Válassz időpontot!");
+      return;
+    }
+
+    alert("Foglalás mentve (teszt verzió)");
+
+    selected = null;
+    timesDiv.innerHTML = "";
+  };
+
 });
-</script>
-
-<!-- ================= FIREBASE ================= -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs }
-from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAJ09dkyySZKpf_X6IA_TJbvdEJzM8-mb4",
-  authDomain: "bombahaj-fodraszat.firebaseapp.com",
-  projectId: "bombahaj-fodraszat",
-  storageBucket: "bombahaj-fodraszat.firebasestorage.app",
-  messagingSenderId: "90693281570",
-  appId: "1:90693281570:web:9b17d1e00206baaf63277b"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// 🔥 BETÖLTÉS
-window.loadBookings = async function () {
-
-  const snapshot = await getDocs(collection(db, "bookings"));
-
-  let data = {};
-
-  snapshot.forEach(doc => {
-    const b = doc.data();
-
-    if (!data[b.date]) data[b.date] = [];
-
-    data[b.date].push({
-      start: b.start,
-      end: b.end
-    });
-  });
-
-  return data;
-};
-
-// 🔥 FOGLALÁS
-window.book = async function () {
-
-  const selected = window.getSelected();
-
-  if (!selected) {
-    alert("Válassz időpontot!");
-    return;
-  }
-
-  await addDoc(collection(db, "bookings"), {
-    date: selected.date,
-    start: selected.start,
-    end: selected.end,
-    time: selected.label,
-    created: new Date()
-  });
-
-  alert("🔥 Foglalás mentve!");
-
-  location.reload();
-};
 </script>
 
 </body>
